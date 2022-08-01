@@ -1,19 +1,9 @@
-import { Time } from "@angular/common";
-
 export class Adminflight {
-    flight_number:number;
-    departure_location:string;
-    arrival_location:string;
-    Monday:Boolean;
-    Tuesday:Boolean;
-    Wednesday:Boolean;
-    Thursday:Boolean;
-    Friday:Boolean;
-    Saturday:Boolean;
-    Sunday:Boolean;
-    departure_time:Time;
-    arrival_time:Time;
-    duration:Time;
-    business_cost: number;
-    economy_cost:number;
+    flight_name:String;
+    departure_time:Date;
+    arrival_time:Date;
+    economic_fare:Number;
+    business_fare:Number;
+    source_airport_id:Number;
+    destination_airport_id:Number;
 }

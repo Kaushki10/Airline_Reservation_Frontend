@@ -1,7 +1,7 @@
 <div class=" Hero signupwrapper">
-    <div class="logo" [routerLink]="['/']">
+    <!-- <div class="logo" [routerLink]="['/']">
         <img src="../../../assets/logo1.png">
-    </div>
+    </div> -->
     <div class = 'signupcontainer'>   
         <h1 class='signupform__heading'>Signup</h1>
         <form class="signupform" #f="ngForm" novalidate (ngSubmit) = "f.form.valid && onSubmit(f.value)">
@@ -98,7 +98,7 @@
                 <div class="col-12 col-md-5 inputgroup">
                     <div>
                         <label class="label">Email</label>
-                        <input class="input--style-4" type="email" name="email_id" required autocomplete="off" 
+                        <input class="input--style-4" type="email" name="email" required autocomplete="off" 
                          ngModel #email_id = "ngModel" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"  >
                             <div *ngIf="email_id.invalid && (email_id.dirty || email_id.touched ||f.submitted)">
                                 <small><mat-error *ngIf="email_id.errors?.required">Email is a required field</mat-error></small>
@@ -109,7 +109,7 @@
                 <div class="col-12 col-md-5 inputgroup">
                     <div>
                         <label class="label">Phone Number</label>
-                        <input class="input--style-4" type="tel" name="mobile" required autocomplete="off" ngModel
+                        <input class="input--style-4" type="tel" name="phone_number" required autocomplete="off" ngModel
                             #mobile = "ngModel" minlength="10" maxlength="10" pattern="^[0-9]*$">
                         <div *ngIf=" mobile.invalid && (mobile.dirty || mobile.touched||f.submitted)">
                             <div><small *ngIf = "mobile.errors.pattern">Enter a valid Phone number</small></div>

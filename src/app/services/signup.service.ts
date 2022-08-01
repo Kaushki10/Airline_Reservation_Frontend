@@ -8,31 +8,17 @@ import { environment } from 'src/environments/environment';
 })
 export class Signupservice {
 
-  private apiServer = environment.url + "user";
+  private apiServer = environment.url + "user/register";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    'responseType':'text' as 'json'
   }
   constructor(private httpClient: HttpClient) { }
   
-  async post(data:Signup) {
-    try 
-    {
-      let a = await this.httpClient.post<Signup>(this.apiServer,data,this.httpOptions).toPromise()
-    }
-    catch(error)
-    { 
-      console.log(error)
-         if(error.status == 0)
-          return ('Check Your Connection')
-        else if(error.status == 409)
-          return "Email-Id already registered"
-        else if(error.status == 400)
-          return "Invalid Credentials"
-        else if(error.status == 500)
-          return "500"
-    }
+  post(data:Signup) {
+     return this.httpClient.post<any>(this.apiServer,data,this.httpOptions)
   
   }
  

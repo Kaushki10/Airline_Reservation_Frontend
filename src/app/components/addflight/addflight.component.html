@@ -6,24 +6,22 @@
         <form class="dim" #AddFlightForm="ngForm" (ngSubmit)="submitForm(AddFlightForm)" novalidate>
             <h2 class="h2">Register Flight</h2><br>
             <div class = "check" *ngIf="!flightcheck">
-                <span class="msg">&#10687; Flight Number Already Exist </span>
+                <span class="msg">&#10687; Flight Name Already Exist </span>
             </div>
             <div class="form-group">
                 <div class="row">
-                    <label for="flight_number" class="col-sm-3 control-label">Flight Number</label>
-                    <div class="col-sm-9" id="flight_number" ><input type ="text" (click)="onclickfn()" name="flight_number" class="form-control" placeholder="Flight Number" pattern="^[0-9]*$" required minlength="3" maxlength="4" #flight_number="ngModel"
-                        [(ngModel)]="addflight.flight_number">
+                    <label for="flight_name" class="col-sm-3 control-label">Flight Name</label>
+                    <div class="col-sm-9" id="flight_name" ><input type ="text" (click)="onclickfn()" name="flight_name" class="form-control" placeholder="Flight Name" required minlength="3" #flight_name="ngModel"
+                        [(ngModel)]="addflight.flight_name">
                     <div
-                    *ngIf="!flight_number?.valid && (flight_number?.dirty ||flight_number?.touched)" class="errors">
-                    <div *ngIf="flight_number.errors.required">
-                    <span class="msg">&#9888; Flight Number is required</span>
+                    *ngIf="!flight_name?.valid && (flight_name?.dirty ||flight_name?.touched)" class="errors">
+                    <div *ngIf="flight_name.errors.required">
+                    <span class="msg">&#9888; Flight Name is required</span>
                     </div>
-                    <div *ngIf="flight_number.errors.minlength">
+                    <div *ngIf="flight_name.errors.minlength">
                         <span class="msg">&#9888; Min Length is 3</span>
                     </div>
-                    <div *ngIf="flight_number.errors.pattern">
-                        <span class="msg">&#9888; Enter only digits</span>
-                    </div>
+                
                     </div>
                 </div>
                 </div><br>
@@ -31,18 +29,18 @@
                 <div class="row">
                     <label for="departure_location" class="col-sm-3 control-label">From </label>
                     <div class="col-sm-9" id="departure_location">
-                        <select type ="type" name="departure_location" class="form-control" required #departure_location="ngModel"
-                        [(ngModel)]="addflight.departure_location">
-                        <option value="" disabled selected>Select Origin</option>
-                        <option *ngFor="let city of citydata" [value]="city.city_name">
-                            {{city.city_name + ' (' + city.IATA_code + ')'}}
+                        <select type ="type" name="source_airport_id" class="form-control" required #departure_location="ngModel"
+                        [(ngModel)]="addflight.source_airport_id">
+                        <option value="" disabled selected>Select Source</option>
+                        <option *ngFor="let airport of airports" [value]="airport.airport_id">
+                            {{airport.city}}
                           <option>
                         </select>
                     
                         <div
                         *ngIf="!departure_location?.valid && (departure_location?.dirty ||departure_location?.touched)" class="errors">
                         <div *ngIf="departure_location.errors.required">
-                            <span class="msg">&#9888; Origin is required</span>
+                            <span class="msg">&#9888; Source is required</span>
                         </div>
                         </div>
                     </div>
@@ -51,11 +49,11 @@
                 <div class="row">
                     <label for="arrival_location" class="col-sm-3 control-label">To </label>
                     <div class="col-sm-9" id="arrival_location">
-                        <select type ="type" name="arrival_location" class="form-control" required #arrival_location="ngModel"
-                        [(ngModel)]="addflight.arrival_location">
+                        <select type ="type" name="destination_airport_id" class="form-control" required #arrival_location="ngModel"
+                        [(ngModel)]="addflight.destination_airport_id">
                             <option value="" disabled selected>Select Destination</option>
-                            <option *ngFor="let city of citydata" [value]="city.city_name">
-                                {{city.city_name + ' (' + city.IATA_code + ')'}}
+                            <option *ngFor="let airport of airports" [value]="airport.airport_id">
+                                {{airport.city}}
                               <option>
                         </select>
                    
@@ -68,7 +66,7 @@
                     </div>
                 </div><br>
 
-                <div class="row">
+                <!-- <div class="row">
                     <label for="days" class="col-sm-3 control-label">Days </label>
                     <div class="col-sm-9" id="days">
                     
@@ -98,13 +96,13 @@
                         </div>
                     </div>
                 
-                </div><br>
+                </div><br> -->
 
 
 
                 <div class="row">
                     <label for="departure_time" class="col-sm-3 control-label">Departure </label>
-                    <div class="col-sm-9" id="departure_time"><input type ="time" name="departure_time" class="form-control" required #departure_time="ngModel"
+                    <div class="col-sm-9" id="departure_time"><input type ="datetime-local" name="departure_time" class="form-control" required #departure_time="ngModel"
                         [(ngModel)]="addflight.departure_time">
                         <div
                         *ngIf="!departure_time?.valid && (departure_time?.dirty ||departure_time?.touched)" class="errors">
@@ -117,7 +115,7 @@
 
                 <div class="row">
                     <label for="arrival_time" class="col-sm-3 control-label">Arrival</label>
-                    <div class="col-sm-9" id="arrival"><input type ="time" name="arrival_time" class="form-control" required #arrival_time="ngModel"
+                    <div class="col-sm-9" id="arrival_time"><input type ="datetime-local" name="arrival_time" class="form-control" required #arrival_time="ngModel"
                         [(ngModel)]="addflight.arrival_time">
                         <div
                         *ngIf="!arrival_time?.valid && (arrival_time?.dirty ||arrival_time?.touched)" class="errors">
@@ -128,7 +126,7 @@
                     </div>
                 </div><br>
 
-                <div class="row">
+                <!-- <div class="row">
                     <label for="duration" class="col-sm-3 control-label">Duration</label>
                     <div class="col-sm-9" id="duration"><input type ="text" name="duration" class="form-control" placeholder="Duration in HH:MM" required #duration="ngModel"
                         [(ngModel)]="addflight.duration">
@@ -139,9 +137,9 @@
                         </div>
                         </div>
                     </div>
-                </div><br>
+                </div><br> -->
 
-                <div class="row">
+                <!-- <div class="row">
                     <label for="cabin" class="col-sm-3 control-label">Cabin</label>
                     <div class="col-sm-9 " id="cabin">
                         <select type ="type" class="form-control">
@@ -149,15 +147,15 @@
                         </select>
                     </div>
                     
-                </div><br>
+                </div><br> -->
                 
                 <div class="row">
-                    <label for="business_cost" class="col-sm-3 control-label">Business Price</label>
-                    <div class="col-sm-9" id="business_cost"><input type ="number" name="business_cost" class="form-control" placeholder="Business Class Price" required #business_cost="ngModel"
-                        [(ngModel)]="addflight.business_cost">
+                    <label for="business_fare" class="col-sm-3 control-label">Business Price</label>
+                    <div class="col-sm-9" id="business_fare"><input type ="number" name="business_fare" class="form-control" placeholder="Business Class Price" required #business_fare="ngModel"
+                        [(ngModel)]="addflight.business_fare">
                         <div
-                        *ngIf="!business_cost?.valid && (business_cost?.dirty ||business_cost?.touched)" class="errors">
-                        <div *ngIf="business_cost.errors.required">
+                        *ngIf="!business_fare?.valid && (business_fare?.dirty ||business_fare?.touched)" class="errors">
+                        <div *ngIf="business_fare.errors.required">
                             <span class="msg">&#9888; Enter Business Class Price</span>
                         </div>
                         </div>
@@ -165,12 +163,12 @@
                 </div><br>
 
                 <div class="row">
-                    <label for="economy_cost" class="col-sm-3 control-label">Economy Price</label>
-                    <div class="col-sm-9" id="economy_cost"><input type ="number" name="economy_cost" class="form-control" placeholder="Economy Class Price" required #economy_cost="ngModel"
-                        [(ngModel)]="addflight.economy_cost">
+                    <label for="economic_fare" class="col-sm-3 control-label">Economy Price</label>
+                    <div class="col-sm-9" id="economic_price"><input type ="number" name="economic_fare" class="form-control" placeholder="Economy Class Price" required #economic_fare="ngModel"
+                        [(ngModel)]="addflight.economic_fare">
                         <div
-                        *ngIf="!economy_cost?.valid && (economy_cost?.dirty ||economy_cost?.touched)" class="errors">
-                        <div *ngIf="economy_cost.errors.required">
+                        *ngIf="!economic_fare?.valid && (economic_fare?.dirty ||economic_fare?.touched)" class="errors">
+                        <div *ngIf="economic_fare.errors.required">
                             <span class="msg">&#9888; Enter Economy Class Price</span>
                         </div>
                         </div>
@@ -184,11 +182,10 @@
                         <button class="bt add" type="submit" [disabled]="!AddFlightForm.valid" [ngStyle]="{'cursor': (!AddFlightForm.valid? 'not-allowed':'pointer')}" >Add Flight</button>
                     </div>
                     <div>
-                        <button class="bt" onclick="window.location='http://localhost:4200/ViewAllFlights';">Cancel</button>
+                        <button class="bt" onclick="window.location='http://localhost:4200/viewallflights';">Cancel</button>
                     </div>
                 </div>  
             </div>
         </form>
     </div>
 </div>
-<app-adminfooter></app-adminfooter>

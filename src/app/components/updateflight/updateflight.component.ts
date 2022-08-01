@@ -17,27 +17,19 @@ export class UpdateflightComponent implements OnInit {
   constructor(private service:AdminflightcrudService,private router:ActivatedRoute,private airportservice : AirportsService, private routers: Router) { }
 
   ngOnInit(): void {
-    this.service.getByflightnumber(this.router.snapshot.params['flightnumber']).subscribe((data)=>
+    this.service.getByflightname(this.router.snapshot.params['flightname']).subscribe((data)=>
     this.updateflight={
-      flight_number:data["flight_number"],
-      departure_location:data["departure_location"],
-      arrival_location:data["arrival_location"],
-      Monday:data["Monday"],
-      Tuesday:data["Tuesday"],
-      Wednesday:data["Wednesday"],
-      Thursday:data["Thursday"],
-      Friday:data["Friday"],
-      Saturday:data["Saturday"],
-      Sunday:data["Sunday"],
+      flight_name:data["flight_name"],
+      source_airport_id:data["source_airport_id"],
+      destination_airport_id:data["destination_airport_id"],
       departure_time:data["departure_time"],
       arrival_time:data["arrival_time"],
-      duration:data["duration"],
-      business_cost:data["business_cost"],
-      economy_cost:data["economy_cost"]
+      business_fare:data["business_fare"],
+      economic_fare:data["economic_fare"]
       }
       
     )
-    this.citydata = this.airportservice.airports;
+    this.citydata = this.airportservice.getAirports().subscribe(d=>this.citydata=d);
     if(!sessionStorage.getItem('admin'))
     {
       Swal.fire({
@@ -46,7 +38,7 @@ export class UpdateflightComponent implements OnInit {
         icon: 'warning',
        
       })
-      this.routers.navigate([`${'/AdminLogin'}`]);
+      this.routers.navigate([`${'/adminlogin'}`]);
     }
     if(sessionStorage.getItem('admin'))
     {
@@ -57,14 +49,14 @@ export class UpdateflightComponent implements OnInit {
  
   submitForm(UpdateFlightForm) {
     
-    UpdateFlightForm.value.flight_number=this.updateflight.flight_number;
+  //   UpdateFlightForm.value.flight_name=this.updateflight.flight_name;
    
-    Swal.fire('Updating Flight');    Swal.showLoading();
-    this.service.updateflight(this.router.snapshot.params['flightnumber'],UpdateFlightForm.value).subscribe((data)=>
-     console.log(data,"Flight Added")
-   )
-   Swal.close();
-   this.routers.navigate([`${'ViewAllFlights'}`]);
+  //   Swal.fire('Updating Flight');    Swal.showLoading();
+  //   this.service.updateflight(this.router.snapshot.params['flightnumber'],UpdateFlightForm.value).subscribe((data)=>
+  //    console.log(data,"Flight Added")
+  //  )
+  //  Swal.close();
+  //  this.routers.navigate([`${'ViewAllFlights'}`]);
   
   }
 }

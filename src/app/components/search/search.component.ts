@@ -29,7 +29,7 @@ export class SearchComponent implements OnInit {
       this.loggedIn = true
     }
     
-    this.data = this.service.airports
+    // this.data = this.service.airports
 
   }
   public data: any = []

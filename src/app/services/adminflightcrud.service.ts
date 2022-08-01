@@ -8,7 +8,7 @@ import { Adminflight } from '../models/adminflight';
   providedIn: 'root'
 })
 export class AdminflightcrudService {
-  private apiServer = environment.url+"adminoperations/";
+  private apiServer = environment.url+"admin/";
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
@@ -18,26 +18,29 @@ export class AdminflightcrudService {
   constructor(private httpClient: HttpClient) { }
   
   getAll(): Observable<Adminflight[]> {
-    return this.httpClient.get<Adminflight[]>(this.apiServer)
+    return this.httpClient.get<Adminflight[]>(this.apiServer+"flights")
   }
 
-  deleteflight(flightnumber){
+  deleteflight(flightname:string){
     this.refreshcheck=false;
-    return this.httpClient.delete<Adminflight>(this.apiServer + flightnumber, this.httpOptions)  
+    return this.httpClient.delete<Adminflight>(this.apiServer +"flight/"+ flightname, this.httpOptions)  
     
   }
 
-  getByflightnumber(flightnumber): Observable<Adminflight> {
-    return this.httpClient.get<Adminflight>(this.apiServer+ flightnumber)
+  getByflightname(flightname:String): Observable<Adminflight> {
+    return this.httpClient.get<Adminflight>(this.apiServer+"flight/"+ flightname)
   } 
  
-  updateflight(flightnumber, flight): Observable<Adminflight> {
-    this.refreshcheck=false;
-    return this.httpClient.put<Adminflight>(this.apiServer+ flightnumber, JSON.stringify(flight), this.httpOptions)
-  }  
+  // updateflight(flightnumber:Number, flight): Observable<Adminflight> {
+  //   this.refreshcheck=false;
+  //   return this.httpClient.put<Adminflight>(this.apiServer+ flightnumber, JSON.stringify(flight), this.httpOptions)
+  // }  
   
-  addflight(flight): Observable<Adminflight> {
+  addflight(flight:any): Observable<any> {
+    flight.source_airport_id=parseInt(flight.source_airport_id);
+    flight.destination_airport_id=parseInt(flight.destination_airport_id);
+
     this.refreshcheck=false;
-    return this.httpClient.post<Adminflight>(this.apiServer, JSON.stringify(flight), this.httpOptions)
+    return this.httpClient.post<any>(this.apiServer+"addflight", JSON.stringify(flight), this.httpOptions)
   }
 }

@@ -15,7 +15,7 @@ export class AdminloggedinheaderComponent implements OnInit {
   handlelogout = () => 
   {
     sessionStorage.removeItem('admin')
-    this.router.navigate([`${'/AdminLogin'}`]);
+    this.router.navigate([`${'/adminlogin'}`]);
   }
 
 }

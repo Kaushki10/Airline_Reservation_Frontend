@@ -75,7 +75,7 @@ export class PassengersComponent implements OnInit {
         }
         this.fetchseats.number_of_seats = this.flightselected.number_of_seats
         this.fetchseats.seatclass = this.flightselected.travel_status == true?"business":"economy"
-        let response = await this.fetchseats.fetchseats(this.flightselected.flight_number,this.flightselected.travel_date)
+        let response = await this.fetchseats.fetchseats(this.flightselected.flight_number)
         if(!response)
         {
           this.router.navigate([`${'flight/seats'}`]);

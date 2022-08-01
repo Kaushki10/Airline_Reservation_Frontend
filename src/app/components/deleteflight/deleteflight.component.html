@@ -15,8 +15,7 @@
                         <th class="td">Origin</th>
                         <th class="td">Destination</th>
                         <th class="td">Departure</th>
-                        <th class="td">Arrival</th>
-                        <th class="td">Duration</th>                       
+                        <th class="td">Arrival</th>                      
                     
                     </tr>
                 </thead>
@@ -25,17 +24,16 @@
                         <td class="td">
                             <div>
                                 <img src="../../assets/adminplanelogo.png" class="head_logo">
-                            </div>{{flight.flight_number}}</td>
-                        <td class="td">{{flight.departure_location}}</td>
-                        <td class="td">{{flight.arrival_location}}</td>
-                        <td class="td">{{flight.departure_time}}</td>
-                        <td class="td">{{flight.arrival_time}}</td>
-                        <td class="td">{{flight.duration}}</td>          
+                            </div>{{flight.flight_name}}</td>
+                        <td class="td">{{flight.source_airport_id}}</td>
+                        <td class="td">{{flight.destination_airport_id}}</td>
+                        <td class="td">{{flight.departure_time  | date:'dd MMM yyyy hh:mm a'}}</td>
+                        <td class="td">{{flight.arrival_time  | date:'dd MMM yyyy hh:mm a'}}</td>         
                     </tr>
                     
                     <tr class="tbt">
                         <td colspan="7">
-                            <button class="bt delete" type="submit" (click)="delete(flight.flight_number)">Delete Flight</button>
+                            <button class="bt delete" type="submit" (click)="delete(flight.flight_name)">Delete Flight</button>
                         </td>
                     </tr>
                     <tr class="tbt">
@@ -48,6 +46,3 @@
         </div>
     </div>
 </div>
-
-
-<app-adminfooter></app-adminfooter>

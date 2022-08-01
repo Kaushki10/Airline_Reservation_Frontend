@@ -3,18 +3,15 @@
 
  <div class="bg">    
     <div class="view">
+        <h1 class="h1" style="background-color: transparent;color:white;text-align:center;">
+            ALL FLIGHTS
+        </h1>
         <table class="tbl">
             <thead>
+                <br/>
                 <tr>
-                    <th class="head" colspan="3">
-                        <span>
-                            <img src="../../assets/adminheader.png" class="head_logo " >
-                        </span>
-                    </th>
                     <th class="h">
-                        <h1 class="h1">
-                        FLIGHTS
-                    </h1>
+                      
                 </th></tr>
                 <tr>
                     <th colspan="7">
@@ -28,8 +25,7 @@
                     <th class="th">Origin</th>
                     <th class="th">Departure Time</th>
                     <th class="th">Destination</th>
-                    <th class="th">Arrival Time</th>
-                    <th class="th">Duration</th> 
+                    <th class="th">Arrival Time</th> 
                     <th class="th"></th>                         
                 
                 </tr>
@@ -41,16 +37,15 @@
                         <div>
                             <img src="../../assets/adminplanelogo.png" class="head_logo">
                         </div>
-                        {{flight.flight_number}}
+                        {{flight.flight_name}}
                     </td>
-                    <td class="td">{{flight.departure_location}}</td>
-                    <td class="td">{{flight.departure_time}}</td>
-                    <td class="td">{{flight.arrival_location}}</td>
-                    <td class="td">{{flight.arrival_time}}</td>
-                    <td class="td">{{flight.duration}}</td>
+                    <td class="td">{{flight.source_airport_id}}</td>
+                    <td class="td">{{flight.departure_time | date:'dd MMM yyyy hh:mm a'}}</td>
+                    <td class="td">{{flight.destination_airport_id}}</td>
+                    <td class="td">{{flight.arrival_time| date:'dd MMM yyyy hh:mm a'}}</td>
                     <td class="td">
-                        <button class="bt update" [routerLink]="['/updateflight/', flight.flight_number]">Update</button><br>
-                        <button class="bt delete" [routerLink]="['/deleteflight/', flight.flight_number]">Delete</button>
+                        <!-- <button class="bt update" [routerLink]="['/updateflight/', flight.flight_name]">Update</button><br> -->
+                        <button class="bt delete" [routerLink]="['/deleteflight/', flight.flight_name]">Delete</button>
                     </td>
                 
                 </tr>
@@ -58,5 +53,3 @@
         </table>
     </div>
 </div>
-
-<app-adminfooter></app-adminfooter>

@@ -45,7 +45,6 @@ import { LoggedinheaderComponent } from './components/loggedinheader/loggedinhea
 import { CancellationsComponent } from './components/dashboard/cancellations/cancellations.component';
 import { RulesComponent } from './components/rules/rules.component'
 import { AdminheaderComponent } from './components/adminheader/adminheader.component';
-import { AdminfooterComponent } from './components/adminfooter/adminfooter.component';
 import { AdminloggedinheaderComponent } from './components/adminloggedinheader/adminloggedinheader.component';
 import { EticketComponent } from './components/eticket/eticket.component';
 
@@ -79,7 +78,6 @@ import { EticketComponent } from './components/eticket/eticket.component';
     CancellationsComponent,
     RulesComponent,
     AdminheaderComponent,
-    AdminfooterComponent,
     AdminloggedinheaderComponent,
     EticketComponent,
    

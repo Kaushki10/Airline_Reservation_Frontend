@@ -7,26 +7,16 @@ import { environment } from 'src/environments/environment';
   })
 
   export class Loginservice {
-    private apiServer = environment.url + "Login";
+    private apiServer = environment.url + "user/login";
     httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
-    })
+    }),
+    'responseType':'text' as 'json'
   }
   constructor(private httpClient: HttpClient) { }
-  async login(data:any)
+  login(data:any)
   {
-    try 
-    {
-        let a = await this.httpClient.post(this.apiServer,data,this.httpOptions).toPromise()
-        return "Verified"
-    }
-    catch(error)
-    {
-      if(error.status == 400)
-          return "Invalid Credentials"
-      if(error.status == 500)
-        return "500"
-    }
+       return this.httpClient.post(this.apiServer,data,this.httpOptions);
   }
 }

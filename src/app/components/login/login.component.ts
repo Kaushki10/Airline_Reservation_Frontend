@@ -25,26 +25,33 @@ export class LoginComponent implements OnInit {
   {
     this.visible = !this.visible;
   }
-  async onSubmit(data) {
+  onSubmit(data) {
     this.timer = true
-    Swal.fire('Logging In');    Swal.showLoading();
-    let response = await this.loginservice.login(data)
-    Swal.close()
-    if(response == "Verified")
-      {
-        this.router.navigate([`${''}`]);
+    Swal.fire('Logging In');    
+    Swal.showLoading();
+    this.loginservice.login(data).subscribe(d=>{
+      if(d=="Valid"){
+        this.router.navigate([`${'/'}`]);
         sessionStorage.setItem('user',data.email)
+      }else{
+        this.response=this.response;
+      }
+    });
+    Swal.close()
+    // if(response == "Valid")
+    //   {
 
-      }
-    else 
-      {
-        if(response == "500" )
-          {
-            Swal.fire('Internal Server Error', 'Try again later' , 'error')
-          }
-          else
-            this.response = response
-      }
+
+    //   }
+    // else 
+    //   {
+    //     if(response == "500" )
+    //       {
+    //         Swal.fire('Internal Server Error', 'Try again later' , 'error')
+    //       }
+    //       else
+    //         this.response = response
+    //   }
     setTimeout(() => {
       this.timer = false
     },3000)

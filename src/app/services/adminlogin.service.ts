@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
@@ -7,24 +8,16 @@ import { environment } from 'src/environments/environment';
 })
 export class AdminloginService {
 
-  private apiServer = environment.url + "AdminLogin";
+  private apiServer = environment.url + "admin/login";
   httpOptions = {
   headers: new HttpHeaders({
     'Content-Type': 'application/json'
-  })
+  }),
+responseType:'text' as 'json'
 }
 constructor(private httpClient: HttpClient) { }
-async login(data:any)
+login(data:any):Observable<any>
 {
-  try 
-  {
-      let a = await this.httpClient.post(this.apiServer,data,this.httpOptions).toPromise()
-      return "Verified"
-  }
-  catch(error)
-  {
-    if(error.status == 400)
-        return "Invalid Credentials"
-  }
+  return this.httpClient.post<any>(this.apiServer,data,this.httpOptions)
 }
 }

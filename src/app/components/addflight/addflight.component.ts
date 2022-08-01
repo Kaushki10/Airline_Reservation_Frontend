@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Adminflight } from 'src/app/models/adminflight';
+import { Airport } from 'src/app/models/airport';
 import { AdminflightcrudService } from 'src/app/services/adminflightcrud.service';
 import { AirportsService } from 'src/app/services/airports.service';
 import Swal from 'sweetalert2';
@@ -12,37 +13,29 @@ import Swal from 'sweetalert2';
   styleUrls: ['./addflight.component.css']
 })
 export class AddflightComponent implements OnInit {
-  public citydata;
   addflight:Adminflight;
   flights;
   flightcheck=true;
   v:Adminflight;
   isLoggedIn: boolean;
+  airports:Airport[] =[];
+
   constructor(private service:AdminflightcrudService, private airportservice : AirportsService, private router: Router) { }
 
   ngOnInit(): void {
     this.addflight={
-      flight_number:null,
-      departure_location:'',
-      arrival_location:'',
-      Monday:false,
-      Tuesday:false,
-      Wednesday:false,
-      Thursday:false,
-      Friday:false,
-      Saturday:false,
-      Sunday:false,
+      flight_name:'',
       departure_time:null,
       arrival_time:null,
-      duration:null,
-      business_cost:null,
-      economy_cost:null
+      economic_fare:null,
+      business_fare:null,
+      source_airport_id:null,
+      destination_airport_id:null
     }
-    this.citydata = this.airportservice.airports;
+    this.airportservice.getAirports().subscribe((data)=>{this.airports=data});
     this.flightcheck=true;
     this.service.getAll().subscribe((data: Adminflight[])=>{
       this.flights = data;
-     
   }) 
   if(!sessionStorage.getItem('admin'))
     {
@@ -52,7 +45,7 @@ export class AddflightComponent implements OnInit {
         icon: 'warning',
        
       })
-      this.router.navigate([`${'/AdminLogin'}`]);
+      this.router.navigate([`${'/adminlogin'}`]);
     }
     if(sessionStorage.getItem('admin'))
     {
@@ -72,7 +65,7 @@ export class AddflightComponent implements OnInit {
     
   for(let i=0;i<this.flights.length;i++)
   {
-    if(this.flights[i].flight_number==AddFlightForm.value.flight_number)
+    if(this.flights[i].flight_name==AddFlightForm.value.flight_name)
       {
         this.flightcheck=false;
         window.scrollTo(0,1);
@@ -88,7 +81,7 @@ export class AddflightComponent implements OnInit {
       console.log(data,"Flight Added")
       )
       Swal.close();
-    this.router.navigate([`${'ViewAllFlights'}`]);
+    this.router.navigate([`${'viewallflights'}`]);
     }
    
    }

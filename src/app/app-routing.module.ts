@@ -36,11 +36,11 @@ const routes: Routes = [
   {path:'flight/payment/eticket', component:EticketComponent},
   
   
-  {path: 'AdminLogin', component: AdminloginComponent},
-  {path:'AddFlight', component: AddflightComponent},
-  {path:'ViewAllFlights', component: ViewallflightsComponent},
-  {path:'updateflight/:flightnumber', component:UpdateflightComponent},
-  {path:'deleteflight/:flightnumber', component:DeleteflightComponent},
+  {path: 'adminlogin', component: AdminloginComponent},
+  {path:'addflight', component: AddflightComponent},
+  {path:'viewallflights', component: ViewallflightsComponent},
+  // {path:'updateflight/:flightname', component:UpdateflightComponent},
+  {path:'deleteflight/:flightname', component:DeleteflightComponent},
  
 
   { path:'**' , component:PageNotFoundComponent}

@@ -13,7 +13,7 @@ export class TransactionService {
           'Content-Type': 'application/json'
         })
       }
-      private apiServer = environment.url + "Transaction";
+      private apiServer = environment.url + "bookings";
       public passengers:any
       public seatArray = []
       public current_date : string

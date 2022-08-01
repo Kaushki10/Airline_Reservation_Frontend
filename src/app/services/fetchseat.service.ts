@@ -3,6 +3,7 @@ import { HttpClient, HttpErrorResponse, HttpHeaders,HttpParams } from "@angular/
 import {  Observable, throwError } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { error } from 'protractor';
+import { Seat } from '../models/seat';
 
 
 @Injectable({
@@ -10,7 +11,7 @@ import { error } from 'protractor';
 })
 
 export class FetchSeatService{
-    private apiServer = environment.url + "seat";
+    private apiServer = environment.url + "user/seats/";
     httpOptions = {
         headers: new HttpHeaders({
           'Content-Type': 'application/json'
@@ -46,22 +47,19 @@ export class FetchSeatService{
           
           
         }
-        async fetchseats(no,date)
+        async fetchseats(id)
           {
-            let params = new HttpParams();
-            params = params.append('flightnumber', no);
-            params = params.append('date', date);
             try 
             {
-              let a =   await this.httpClient.get<[]>(this.apiServer,{ params: params }).toPromise()
+              let a =   await this.httpClient.get<Seat[]>(this.apiServer+id).toPromise()
               this.bookedseats = a;
   
-              this.seats.map( x => {
-                  if(this.bookedseats.includes(x.seatnumber))
-                  {
-                    x.booked = 1
-                  }
-              })
+              // this.seats.map( x => {
+              //     if(this.bookedseats.includes(x.seatnumber))
+              //     {
+              //       x.booked = 1
+              //     }
+              // })
             }
             catch(e)
             {

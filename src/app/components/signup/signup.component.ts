@@ -26,29 +26,34 @@ export class SignupComponent implements OnInit {
   {
     this.visible = !this.visible;
   }
-  async onSubmit(formvalue)
+  onSubmit(formvalue)
   {
     delete formvalue.cnfpwd;
     this.timer = true
     Swal.fire('Creating your account');    Swal.showLoading();
-    let response = await this.signup.post(formvalue)
+    this.signup.post(formvalue).subscribe(d=>{
+      if(d=="Registration Successfull")
+      {
+        Swal.fire('Done', 'Account Created!', 'success')
+        this.router.navigate([`${'login'}`]);
+        
+      }else{
+        this.response=d;
+      }
+    });
     Swal.close()
 
-    if(response == null)
-    {
-      Swal.fire('Done', 'Account Created!', 'success')
-      this.router.navigate([`${'login'}`]);
-      
-    }
-    else 
-    {
-      if(response == "500" )
-          {
-            Swal.fire('Internal Server Error', 'Try again later' , 'error')
-          }
-          else
-            this.response = response
-    }
+    // if(response == null)
+  
+    // else 
+    // {
+    //   if(response == "500" )
+    //       {
+    //         Swal.fire('Internal Server Error', 'Try again later' , 'error')
+    //       }
+    //       else
+    //         this.response = response
+    // }
     setTimeout(() => {
       this.timer = false
     },3000)

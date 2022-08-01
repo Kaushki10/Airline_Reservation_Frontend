@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Adminflight } from 'src/app/models/adminflight';
+import { Airport } from 'src/app/models/airport';
 import { AdminflightcrudService } from 'src/app/services/adminflightcrud.service';
+import { AirportsService } from 'src/app/services/airports.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,6 +26,7 @@ export class ViewallflightsComponent implements OnInit {
         this.flights = data;
         this.flights=this.flights.sort();
     })  
+ 
     if (!this.service.refreshcheck) {
       window.location.reload();
       this.service.refreshcheck=true
@@ -36,7 +39,7 @@ export class ViewallflightsComponent implements OnInit {
         icon: 'warning',
        
       })
-      this.routers.navigate([`${'/AdminLogin'}`]);
+      this.routers.navigate([`${'/adminlogin'}`]);
     }
     if(sessionStorage.getItem('admin'))
     {

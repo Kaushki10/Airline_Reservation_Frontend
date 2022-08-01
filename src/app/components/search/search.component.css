@@ -1,8 +1,8 @@
 .header
 {
-    height: 90vh;
+    height: 100vh;
     display: flex;
-    background-image: url('../../../assets/2822.jpg');
+    background-image: url('../../../assets/unsplash.jpg');
     background-repeat: no-repeat;
     background-size: cover;    
     background-color: black;

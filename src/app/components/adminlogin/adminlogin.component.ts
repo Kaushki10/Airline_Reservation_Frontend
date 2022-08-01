@@ -12,8 +12,8 @@ export class AdminloginComponent implements OnInit {
   verify=true;
   yes;
   public adminlogin;
-  public response: string
-  public timer : boolean
+  public response: String
+  public timer : Boolean
   constructor(private loginservice:AdminloginService, private router: Router) { }
   faEyeSlash = faEyeSlash;
   faEye=faEye;
@@ -32,23 +32,26 @@ export class AdminloginComponent implements OnInit {
   {
     this.visible = !this.visible;
   }
-  async submitForm(AdminLoginForm)
+  submitForm(AdminLoginForm)
   {
    
     this.timer = true
-    let response = await this.loginservice.login(AdminLoginForm.value)
-   
-    if(response == "Verified")
+    this.loginservice.login(AdminLoginForm.value).subscribe((d:any)=>{
+
+      console.log(d);
+      if(d == "Valid")
       {
-        this.router.navigate([`${'ViewAllFlights'}`]);
+        this.router.navigate([`${'viewallflights'}`]);
         sessionStorage.setItem('admin',AdminLoginForm.value.email)
 
       }
     else 
       {
         this.verify=false;
-        this.response = response
+        this.response = d;
       }
+    })
+
     setTimeout(() => {
       this.timer = false
     },3000)
