@@ -6,12 +6,10 @@ import {SignupComponent} from '../app/components/signup/signup.component'
 import {LoginComponent} from '../app/components/login/login.component'
 import { AddflightComponent } from './components/addflight/addflight.component';
 import { DeleteflightComponent } from './components/deleteflight/deleteflight.component';
-import { UpdateflightComponent } from './components/updateflight/updateflight.component';
 import { ViewallflightsComponent } from './components/viewallflights/viewallflights.component';
 import {PassengersComponent} from './components/passengers/passengers.component'
 import {SeatuiComponent} from './components/seatui/seatui.component'
 import {PaymentuiComponent} from './components/paymentui/paymentui.component'
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { AdminloginComponent } from './components/adminlogin/adminlogin.component';
 import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
 import { ResetpasswordComponent } from './components/resetpassword/resetpassword.component';
@@ -39,11 +37,7 @@ const routes: Routes = [
   {path: 'adminlogin', component: AdminloginComponent},
   {path:'addflight', component: AddflightComponent},
   {path:'viewallflights', component: ViewallflightsComponent},
-  // {path:'updateflight/:flightname', component:UpdateflightComponent},
   {path:'deleteflight/:flightname', component:DeleteflightComponent},
- 
-
-  { path:'**' , component:PageNotFoundComponent}
 ];
 
 @NgModule({

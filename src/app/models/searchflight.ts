@@ -1,10 +1,13 @@
 export class Searchflight {
     constructor(
-        public direction: string,
-        public departurelocation : string,
-        public arrivallocation : string,
-        public departuredate:Date,
-        public arrivaldate:Date,
-        public seats: number
+        public booking_type: String,
+        public source_airport_id : Number,
+        public destination_airport_id : Number,
+        public departure_date:Date,
+        public return_date:Date,
+        public adults:Number,
+        public childs:Number,
+        public infants:Number,
+        public class_type:String
     ){}
 }

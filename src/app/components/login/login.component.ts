@@ -33,9 +33,11 @@ export class LoginComponent implements OnInit {
       if(d=="Valid"){
         this.router.navigate([`${'/'}`]);
         sessionStorage.setItem('user',data.email)
-      }else{
-        this.response=this.response;
+
       }
+    },err=>{
+        this.response=err.error;
+      
     });
     Swal.close()
     // if(response == "Valid")

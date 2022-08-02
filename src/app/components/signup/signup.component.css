@@ -137,6 +137,7 @@ div>small
     display: flex;
     justify-content: flex-start;
     align-items: center;
+    color:red;
 }
 @media screen and (max-width:1200px)
 {

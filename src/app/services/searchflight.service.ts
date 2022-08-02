@@ -9,41 +9,21 @@ import {Searchflight} from '../models/searchflight';
 })
 
 export class SearchflightService {
-  private apiServer = environment.url + "searchflight";
-  public departure_location:string;
-  public arrival_location:string;
+  private apiServer = environment.url + "user/flight/search";
+  public source_airport_id:Number;
+  public destination_airport_id:Number;
   public seats:number
   public date:Date
+  public flightdata=[];
   httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })
   }
   constructor(private httpClient: HttpClient) { }
-  public flightdata = [] ;
 
-    async post(departure:string,arrival:string,day:string,date,seats){
-    let params = new HttpParams();
-    this.departure_location = departure
-    this.arrival_location = arrival
-    this.seats = seats
-    this.date = date
-
-    params = params.append('departure', departure);
-    params = params.append('arrival', arrival);
-    params = params.append('day', day);
-    params = params.append('date', date);
-    params = params.append('seats', seats);
-     
-    try 
-    {
-      let a =   await this.httpClient.get<Searchflight[]>(this.apiServer,{ params: params }).toPromise()
-      this.flightdata = a;
-    }
-    catch(error)
-    {
-       if(error.status == 500)
-          return "error"
-    }   
+    SearchFlights(booking_type:String,source_airport_id:Number,destination_airport_id:Number,departure_time:Date,return_date:Date,adults:Number,childs:Number,infants:Number,class_type:String){
+      
+     return this.httpClient.post<Searchflight[]>(this.apiServer,new Searchflight(booking_type,source_airport_id,destination_airport_id,departure_time,return_date,adults,childs,infants,class_type),this.httpOptions);
   }
 }

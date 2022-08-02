@@ -5,40 +5,33 @@
                 <div class="card__flight__logo__img"></div>
             </div>
             <div class="card__flight--number">
-                {{'AI'+a.flight_number}}
+                {{a.flight_name}}
             </div>
         </div>
         <div class = "card__location card__section">
             <div class="card__location--time">
-                {{a.departure_time}}
-            </div> 
-            <div class="card__location--place">
-                {{a.departure_location}}
+                {{a.departure_time | date:'dd MMM yyyy hh:mm a'}}
             </div> 
         
         </div>
         <div class="card__section card__duration">
-            <div class="card__duration--name">ASAY AIRLINES</div>
-            <div class="card__duration--time">{{a.duration}}</div>
+            <div class="card__duration--name">LBJ AIRLINES</div>
             <div class="card__duration--type">NON-STOP</div>
         </div>
         <div class = "card__location card__section">
             <div class="card__location--time">
-                {{a.arrival_time}}
-            </div> 
-            <div class="card__location--place">
-            {{a.arrival_location}}
+                {{a.arrival_time | date:'dd MMM yyyy hh:mm a'}}
             </div> 
         </div>
         <div class="card__section card__booking">
-            <div class="card__booking--price" *ngIf = "classstate==false">
-            ₹ {{calculate_price(a.economy_price)}}
+            <div class="card__booking--price" *ngIf = "class_type=='economic'">
+            ₹ {{a.economic_fare}}
             </div>
-            <div class="card__booking--price" *ngIf = "classstate==true">
-                ₹ {{calculate_price(a.business_price)}}
+            <div class="card__booking--price" *ngIf = "class_type=='business'">
+                ₹ {{a.business_fare}}
             </div>
             <div class="card__booking--book">
-                <button class="book" (click) = "onBookNow(a.flight_number,a.departure_location,a.arrival_location)">Book Now</button>
+                <button class="book" (click) = "onBookNow(a)">Book Now</button>
             </div>
         </div>
     </div>

@@ -15,6 +15,9 @@ import { environment } from 'src/environments/environment';
     'responseType':'text' as 'json'
   }
   constructor(private httpClient: HttpClient) { }
+  getUserData(email){
+    return this.httpClient.get(environment.url+"user/"+email);
+  }
   login(data:any)
   {
        return this.httpClient.post(this.apiServer,data,this.httpOptions);

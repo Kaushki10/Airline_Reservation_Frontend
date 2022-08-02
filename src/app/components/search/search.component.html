@@ -1,14 +1,14 @@
  <div class="header row">
   <nav class="navbar" *ngIf = "loggedIn == false">
         <div class="logo">
-          <div [routerLink]="['/']" class="searchlogoImg" ></div>   
+          <img src="../../../assets/logo.png" div [routerLink]="['/']" class="searchlogoImg" />   
         </div>
       <div class="nav-items">
         
-            <a [routerLink]="['flight/rules']" style="cursor: pointer;color:white;">Booking Rules</a>
+            <a [routerLink]="['flight/rules']" style="cursor: pointer">Booking Rules</a>
             
-            <a [routerLink]="['/login']" style="cursor: pointer;color:white;">Login</a>
-            <a [routerLink]="['/signup']" style="cursor: pointer;color:white;">Signup</a>
+            <a [routerLink]="['/login']" style="cursor: pointer">Login</a>
+            <a [routerLink]="['/signup']" style="cursor: pointer">Signup</a>
             
       </div>
 
@@ -18,39 +18,50 @@
       <div [routerLink]="['/']" class="searchlogoImg" ></div>   
     </div>
     <div class="nav-items">
-        <a [routerLink]="['flight/rules']" style="cursor: pointer;color:white;">Booking Rules</a>
-        <a (click) = "handlelogout()" style="cursor: pointer;color:white;">Logout</a>
+        <a [routerLink]="['flight/rules']" style="cursor: pointer;">Booking Rules</a>
+        <a (click) = "handlelogout()" style="cursor: pointer;">Logout</a>
         <a [routerLink]="['/flight/user/dashboard']" class="avatar"><fa-icon [icon]="faUser"></fa-icon></a> 
       </div>
   </nav>
 
   
-    <div>
+    <div style="margin-left: 5vw;margin-right: 5vw;">
       <div class="herotext">
         <h2 class="hero--subtext"> Plan your travel with Us</h2>
         <h1 class="hero--maintext">Where are you going?</h1>
       </div>
       <div class="row card">
         <form class="form col-12" #flightsearchform = "ngForm" (ngSubmit) = "onSubmit()" novalidate>              
-                <div class="form__details">
+                <div class="form__details" style="width: 100%;display:flex;justify-content:space-between">
                     <div class="row">
                         <div class="form__radio">
-                            <input type="radio" value="one-way" name="journey" [(ngModel)] = model.direction/>
+                            <input type="radio" value="one_way" name="booking_type" [(ngModel)] = "model.booking_type"/>
                             <label for="one-way"> One Way</label>
                         </div>
                         <div class="form__radio">
-                            <input type="radio" value="Return" name="journey" [(ngModel)] = model.direction/>
+                            <input type="radio" value="return" name="booking_type" [(ngModel)] = "model.booking_type"/>
                             <label for="return"> Round Trip</label>
                         </div>
                     </div>
+
+                    <div class="row">
+                      <div class="form__radio">
+                          <input type="radio" value="business" name="class_type" [(ngModel)] = "model.class_type"/>
+                          <label for="business"> Business</label>
+                      </div>
+                      <div class="form__radio">
+                          <input type="radio" value="economic" name="class_type" [(ngModel)] = "model.class_type"/>
+                          <label for="economic"> Economy</label>
+                      </div>
+                  </div>
                 </div>
                 <div class="form__details row">
                   <div style="font-size: 1.5rem" class="form__inputcontainer" >
                     <mat-form-field appearance="outline" [hideRequiredMarker]= "true">
                       <mat-label>From</mat-label>
-                      <mat-select name="departurecity" [(ngModel)] = model.departurelocation required>
-                        <mat-option *ngFor="let city of data" [value]="city.city_name">
-                          {{city.city_name + ' (' + city.IATA_code + ')'}}
+                      <mat-select name="source_airport_id" [(ngModel)] = "model.source_airport_id" required>
+                        <mat-option *ngFor="let airport of airports" [value]="airport.airport_id">
+                          {{airport.city}}
                         </mat-option>
                       </mat-select>
                     </mat-form-field>
@@ -58,25 +69,45 @@
                   <div style="font-size: 1.5rem" class="form__inputcontainer">
                       <mat-form-field appearance="outline" [hideRequiredMarker]= "true">
                         <mat-label>To</mat-label>
-                        <mat-select name="arrivalcity" [(ngModel)] = model.arrivallocation required>
-                          <mat-option *ngFor="let city of data" [value]="city.city_name">
-                            {{city.city_name + ' (' + city.IATA_code + ')'}}
+                        <mat-select name="destination_airport_id" [(ngModel)] = "model.destination_airport_id" required>
+                          <mat-option *ngFor="let airport of airports" [value]="airport.airport_id">
+                            {{airport.city}}
                           </mat-option>
                         </mat-select>
                       </mat-form-field>
                   </div>
-                  <div style="font-size: 1.5rem" class="form__inputcontainer">
-                      <mat-form-field appearance="outline" [hideRequiredMarker]= "true">
-                        <mat-label>Departure</mat-label>
-                        <input matInput [matDatepicker]="deptpicker" [min]="minDate" [max]="maxDate" matSelect  [(ngModel)] = model.departuredate name= "departure" required />
-                        <mat-datepicker-toggle matSuffix [for]="deptpicker"></mat-datepicker-toggle>
-                        <mat-datepicker #deptpicker></mat-datepicker>
-                      </mat-form-field>
-                   </div>
+                  
+                  - <div style="font-size: 1.5rem" style="display:flex;position:relative;flex-direction: column;" class="form__inputcontainer">
+                       <mat-label style="font-size: 12px;position:absolute;margin-left: 10px;">Departure</mat-label>
+                        <input type="date" style="width: 200px;height:50px;margin-top: 9px;padding: 10px;border-radius: 5px;border-width: 1px;border-color: lightgray" [(ngModel)] = "model.departure_date" name="departure_date" required />
+                       
+                   </div> 
                     <div style="font-size: 1.5rem" class="form__inputcontainer">
                       <mat-form-field appearance="outline" [hideRequiredMarker]= "true">
-                        <mat-label>Travellers</mat-label>
-                        <mat-select name="travellers"  [(ngModel)] = model.seats required>
+                        <mat-label>Adults</mat-label>
+                        <mat-select name="adults"  [(ngModel)] = "model.adults" required>
+                          <mat-option *ngFor="let count of travellers" [value]="count" >
+                            {{count}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <div style="font-size: 1.5rem" class="form__inputcontainer">
+                      <mat-form-field appearance="outline" [hideRequiredMarker]= "true">
+                        <mat-label>Childs</mat-label>
+                        <mat-select name="childs"  [(ngModel)] = "model.childs" required>
+                          <mat-option *ngFor="let count of travellers" [value]="count" >
+                            {{count}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    </div>
+
+                    <div style="font-size: 1.5rem" class="form__inputcontainer">
+                      <mat-form-field appearance="outline" [hideRequiredMarker]= "true">
+                        <mat-label>Infants</mat-label>
+                        <mat-select name="infants"  [(ngModel)] = model.infants required>
                           <mat-option *ngFor="let count of travellers" [value]="count" >
                             {{count}}
                           </mat-option>

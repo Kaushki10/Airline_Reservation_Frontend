@@ -22,8 +22,8 @@ export class DeleteflightComponent implements OnInit {
       destination_airport_id:data["destination_airport_id"],
       departure_time:data["departure_time"],
       arrival_time:data["arrival_time"],
-      business_fare:data["business_cost"],
-      economic_fare:data["economic_cost"]
+      business_fare:data["business_fare"],
+      economic_fare:data["economic_fare"]
       }
     )
     if(!sessionStorage.getItem('admin'))

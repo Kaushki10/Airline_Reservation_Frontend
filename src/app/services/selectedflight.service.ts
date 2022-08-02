@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders,HttpParams } from "@angular/common/http";
 import { environment } from 'src/environments/environment';
+import { Seat } from '../models/seat';
 
 @Injectable({
   providedIn: 'root'
@@ -19,7 +20,7 @@ import { environment } from 'src/environments/environment';
       constructor(private httpClient: HttpClient) {
       }
 
-      private apiServer = environment.url + "getprice";
+      private apiServer = environment.url;
 
     
       public departure_location:string
@@ -56,6 +57,10 @@ import { environment } from 'src/environments/environment';
            return "false"
         }
         
+      }
+
+      getSeatsByFlightId(id){
+        return this.httpClient.get<Seat[]>(this.apiServer+"user/seats/"+id,this.httpOptions);
       }
 
 }

@@ -13,18 +13,9 @@
         <div class="heading__location" >
             <span class="heading__location--place"> {{departure}}</span> <span class="heading__location--arrow">&#8594;</span>   <span class="heading__location--place">{{arrival}}</span>
         </div>
-        <div class="seatclasstoggler">
-            <span>Economic</span>
-            <div class= "toggle-switch">
-                <button [ngClass]="(classstate) ? 'switchlight on-animationright' :'switchlight on-animationleft'" (click) = "toggle()"></button>
-            </div>
-            <span>Business</span>
-        </div>
         
      </div>
  </div>   
- <app-airplanecard [flightdetails] = "flights" [classstate] = "classstate" class="flightdetailwrapper">    
+ <app-airplanecard [flightdetails] = "flights" [class_type]="class_type" [booking_type] = "booking_type" class="flightdetailwrapper">    
 
     </app-airplanecard>
-
-<app-footer></app-footer>

@@ -14,8 +14,8 @@ import Swal from 'sweetalert2';
 export class EticketComponent implements OnInit {
   public eticketdetails;
   flights: any[];
-  departure: string;
-  arrival: string;
+  departure: Number;
+  arrival: Number;
   passengers: any;
   amount: any;
 
@@ -50,9 +50,9 @@ export class EticketComponent implements OnInit {
       }
     }
     this.flight_number= this.flightselected.flight_number
-    this.departure = this.searchservice.departure_location
+    this.departure = this.searchservice.source_airport_id
     this.travel_date=this.eticket.booked_information.travel_date.substring(0,10)
-    this.arrival = this.searchservice.arrival_location  
+    this.arrival = this.searchservice.destination_airport_id  
     this.passengers=this.eticket.booked_information.passengers
     this.amount=this.eticket.booked_information.amount
     this.transaction_id=this.eticket.booked_information.transaction_id

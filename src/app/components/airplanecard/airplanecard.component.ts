@@ -10,16 +10,14 @@ import {SelectedFlightService} from '../../services/selectedflight.service'
   styleUrls: ['./airplanecard.component.css']
 })
 export class AirplanecardComponent implements OnInit {
-  @Input() flightdetails: any;
-  @Input() classstate:boolean;
+  @Input() flightdetails:any;
+  @Input() booking_type:String;
+  @Input() class_type:String;
   constructor(public service : SearchflightService, public flightselected:SelectedFlightService, public router : Router ) { }
   public date:Date
-  public seats :number
- 
   public color = 'green'
   ngOnInit(): void {
     this.date = this.service.date
-    this.seats = this.service.seats
   }
 
   checktime(departure_time)
@@ -48,21 +46,22 @@ export class AirplanecardComponent implements OnInit {
     return (price + price/difference_days).toFixed(0)
 
   }
-  async onBookNow(flight_number:number,departure:string,arrival:string)
+  onBookNow(a)
   {
     if(sessionStorage.getItem('user'))
     {
-      await this.flightselected.postdata(
-        {
-          "departure_location":departure,
-          "arrival_location":arrival,
-          "flight_number":flight_number,
-          "travel_date":this.date,
-          "number_of_seats":this.seats,
-          "classstate":this.classstate
-        })
+      // await this.flightselected.postdata(
+      //   {
+      //     "":this.flightdetails.
+      //     "departure_location":departure,
+      //     "arrival_location":arrival,
+    //     "flight_number":flight_number,
+      //     "travel_date":this.date,
+      //     "number_of_seats":this.seats,
+      //     "classstate":this.classstate
+      //   })
 
-        this.router.navigate([`${'flight/passengers'}`]);
+        this.router.navigate([`${'flight/passengers'}`,{data:JSON.stringify(a),booking_type:this.booking_type,class_type:this.class_type}]);
     }
     else {
       Swal.fire({

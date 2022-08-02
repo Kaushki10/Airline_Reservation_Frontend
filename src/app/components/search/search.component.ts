@@ -5,6 +5,7 @@ import {Searchflight} from '../../models/searchflight'
 import { Router } from '@angular/router';
 import { faUser } from '@fortawesome/free-solid-svg-icons';
 import Swal from 'sweetalert2';
+import { Airport } from 'src/app/models/airport';
 
 @Component({
   selector: 'app-search',
@@ -22,6 +23,14 @@ export class SearchComponent implements OnInit {
   }
   public loggedIn : boolean = false
   faUser = faUser
+  public airports: Airport[] = []
+  public travellers:number[] = [0,1,2,3,4,5,6,7,8,9]
+  public departurecity:string 
+  public arrivalcity:string
+  minDate: Date;
+  maxDate: Date;
+  pageName = 'flight/search'
+  model:Searchflight;
 
   ngOnInit(): void {
     if(sessionStorage.getItem('user'))
@@ -29,19 +38,18 @@ export class SearchComponent implements OnInit {
       this.loggedIn = true
     }
     
-    // this.data = this.service.airports
+  this.service.getAirports().subscribe(d=>{
+      this.airports=d;
+      this.model = new Searchflight("one_way",this.airports[0].airport_id, this.airports[1].airport_id, new Date(),null, 0,0,0,"business");
+
+    },er=>{
+      console.log(er.error);
+    })
 
   }
-  public data: any = []
-  public travellers:number[] = [1,2,3,4,5,6,7,8,9]
-  public departurecity:string 
-  public arrivalcity:string
-  minDate: Date;
-  maxDate: Date;
-  pageName = 'flight/search'
+
 
   
-  model = new Searchflight("one-way","Delhi", '', new Date(), new Date() , 1);
   
   
   handlelogout() 
@@ -50,31 +58,25 @@ export class SearchComponent implements OnInit {
     this.loggedIn=false
     this.router.navigate([`${'/'}`]);
   }
-  async onSubmit()
+  onSubmit()
   {
-    Swal.fire('Fetching Your Flights');    Swal.showLoading();
-    var days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
-    let depart_location = this.model.departurelocation
-    let arrival_location = this.model.arrivallocation
-    let departure_date = `${this.model.departuredate.getFullYear()}-${this.model.departuredate.getUTCMonth()+1}-${this.model.departuredate.getDate()}`
-    let day = days[this.model.departuredate.getDay()]
-    let direction = this.model.direction
-    let seats = this.model.seats
+    Swal.fire('Fetching Your Flights');    
+    Swal.showLoading();
 
-    if(direction == 'one-way')
+    if(this.model.booking_type == 'one_way')
     {
-      let response = await this.GetFlightsService.post(depart_location,arrival_location,day,departure_date,seats)
-      if(response == null)
-        {
-          Swal.close();
-          this.router.navigate([`${this.pageName}`]);
-        }
-      else
-        {
-          Swal.close()
-          Swal.fire('Internal Server Error', 'Try again later' , 'error')
+      this.GetFlightsService.SearchFlights(this.model.booking_type,this.model.source_airport_id,this.model.destination_airport_id,this.model.departure_date,this.model.return_date,this.model.adults,this.model.childs,this.model.infants,this.model.class_type).subscribe(d=>{
+        Swal.close();
+        this.router.navigate([`${this.pageName}`,{flights:JSON.stringify(d),source:this.model.source_airport_id,destination:this.model.destination_airport_id,booking_type:this.model.booking_type,class_type:this.model.class_type}]);
+      });
+        
+  
+      // this.GetFlightsService.flightdata;
 
-        }
+      // },err=>{
+      //   Swal.close()
+      //   Swal.fire('Internal Server Error', 'Try again later' , 'error')
+      // });
     }
     
      

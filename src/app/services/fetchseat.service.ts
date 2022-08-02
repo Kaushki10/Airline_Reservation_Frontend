@@ -47,25 +47,8 @@ export class FetchSeatService{
           
           
         }
-        async fetchseats(id)
-          {
-            try 
-            {
-              let a =   await this.httpClient.get<Seat[]>(this.apiServer+id).toPromise()
-              this.bookedseats = a;
-  
-              // this.seats.map( x => {
-              //     if(this.bookedseats.includes(x.seatnumber))
-              //     {
-              //       x.booked = 1
-              //     }
-              // })
-            }
-            catch(e)
-            {
-                return "error";
-            }
-            
-          }
+        getSeatsByFlightId(id){
+          return this.httpClient.get<Seat[]>(this.apiServer+id,this.httpOptions);
+        }
      
 }

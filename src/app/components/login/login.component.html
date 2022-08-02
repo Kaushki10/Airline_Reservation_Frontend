@@ -5,7 +5,7 @@
     <div class="logincontainer">
         <h1 class='loginform__heading'>Login</h1>
         <form class="loginform" #f="ngForm" novalidate (ngSubmit)="f.form.valid && onSubmit(f.value)" >
-            <div *ngIf = "response!=null && timer == true ? true : false" class="error-msg">
+            <div *ngIf = "response!=null && timer == true ? true : false" class="error-msg" style="color: red;">
                 {{response}}
             </div>
             <div class="inputcontainer">

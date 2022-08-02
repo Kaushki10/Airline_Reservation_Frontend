@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { Seat } from 'src/app/models/seat';
 import Swal from 'sweetalert2';
 import {FetchSeatService} from '../../services/fetchseat.service'
 import {TransactionService} from '../../services/transaction.service'
@@ -10,22 +11,24 @@ import {TransactionService} from '../../services/transaction.service'
 })
 export class SeatuiComponent implements OnInit {
 
-  constructor(private seatService : FetchSeatService, public TransactionService:TransactionService, public router: Router) {   }
+  constructor(private seatService : FetchSeatService, public TransactionService:TransactionService, public router: Router,public route:ActivatedRoute) {   }
 
-  public row1=[];
   public row2=[];
   public row3=[];
   public row4=[];
   public row5=[];
   public row6=[];
   
-  public seatarray
-  public n =20
+  public flightdetails;
+  public passengers;
+  public seatarray:Seat[];
+  public n =10
   public k=0;
   public numberofseats:number
   public seatclass:string
   public reservedSeatsArray = []
-
+  public booking_type;
+  public class_type;
 
   ngOnInit(): void {
     if(!sessionStorage.getItem('user'))
@@ -43,90 +46,149 @@ export class SeatuiComponent implements OnInit {
     const currentMonth = new Date().getMonth();
     const currentDate = new Date().getDate();
     const date =`${currentYear}-${currentMonth+1}-${currentDate}`
-    this.seatService.fetchseats(111)
-    this.numberofseats = this.seatService.number_of_seats
-    this.seatclass = this.seatService.seatclass
+    this.flightdetails=JSON.parse(this.route.snapshot.paramMap.get('data'));
+    this.passengers=JSON.parse(this.route.snapshot.paramMap.get('passengers'));
+    this.booking_type=this.route.snapshot.paramMap.get('booking_type');
+    this.class_type=this.route.snapshot.paramMap.get('class_type');
+    console.log(this.flightdetails,this.passengers,this.booking_type,this.class_type);
+
+    this.seatService.getSeatsByFlightId(816).subscribe(d=>{
+      this.seatarray=d.filter(s=>s.seat_type==this.class_type);
+    this.numberofseats = this.seatarray.length
     this.setbooked()
+    console.log(this.seatarray)
+    })
+    this.seatclass = this.class_type;
 
   }
 
   setbooked = () => 
   {
-    this.seatarray = this.seatService.getseats();
+    // this.seatarray = this.seatService.getseats();
 
+    // for(let j=0;j<this.n;j++)
+    // {
+    //   this.row1[j]=this.seatarray[j];
+    // }
     for(let j=0;j<this.n;j++)
     {
-      this.row1[j]=this.seatarray[j];
-    }
-    for(let j=this.n;j<this.n*2;j++)
-    {
-      this.row2[this.k]=this.seatarray[j];
+      this.row2[j]=this.seatarray[this.k];
+      this.row2[j].reserved=0;
       this.k++;
     }
-    this.k=0;
-    for(let j=this.n*2;j<this.n*3;j++)
+    for(let j=0;j<this.n;j++)
     {
-      this.row3[this.k]=this.seatarray[j];
+      this.row3[j]=this.seatarray[this.k];
+      this.row3[j].reserved=0;
       this.k++;
     }
-    this.k=0;
-    for(let j=this.n*3;j<this.n*4;j++)
-    {
-      this.row4[this.k]=this.seatarray[j];
-      this.k++;
-    }
-    this.k=0;
-    for(let j=this.n*4;j<this.n*5;j++)
-    {
-      this.row5[this.k]=this.seatarray[j];
-      this.k++;
-    }
-    this.k=0;
-    for(let j=this.n*5;j<this.n*6;j++)
-    {
-      this.row6[this.k]=this.seatarray[j];
-      this.k++;
-    }
-   
+    console.log(this.row2,this.row3);
+    // for(let j=0;j<this.n;j++)
+    // {
+    //   this.row4[j]=this.seatarray[this.k];
+    //   this.row4[j].reserved=0;
+    //   this.k++;
+    // }
+    // for(let j=0;j<this.n;j++)
+    // {
+    //   this.row5[j]=this.seatarray[this.k];
+    //   this.row5[j].reserved=0;
+    //   this.k++;
+    // }
+    // for(let j=0;j<this.n;j++)
+    // {
+    //   this.row6[j]=this.seatarray[this.k];
+    //   this.row6[j].reserved=0;
+    //   this.k++;
+    // }
   }
 
   
+
+
   reserve = (seatnumber:any) =>
   {
 
-
+//if alerady reserved
       if(this.reservedSeatsArray.includes(seatnumber))
       {
+        this.row2.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=0;
+          }
+        });
+        this.row3.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=0;
+          }
+        });
+        this.row4.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=0;
+          }
+        });
+        this.row5.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=0;
+          }
+        });
+        this.row6.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=0;
+          }
+        });
           this.reservedSeatsArray = this.reservedSeatsArray.filter(x => x!= seatnumber)
-          this.seatarray.map(x => {
-            if(x.seatnumber == seatnumber)
-              x.reserved = 0
-          })
+          // this.seatarray.map(x => {
+          //   if(x.seat_id == seatnumber)
+          //     x.is_booked = true;
+          // })
           return
       }
-      if(this.reservedSeatsArray.length < this.numberofseats)
+      //place left
+      else if(this.reservedSeatsArray.length < this.passengers.length)
       {
         this.reservedSeatsArray.push(seatnumber)
-        this.seatarray.map(x => {
-          if(x.seatnumber == seatnumber)
-            x.reserved = 1
-        })
+        this.row2.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=1;
+          }
+        });
+        this.row3.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=1;
+          }
+        });
+        this.row4.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=1;
+          }
+        });
+        this.row5.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=1;
+          }
+        });
+        this.row6.map(i=>{
+          if(i.seat_id==seatnumber){
+            i.reserved=1;
+          }
+        });
       }
-       
+       //no place left
       else 
       {
-        let deselected = this.reservedSeatsArray.shift()
-        this.seatarray.map(x => {
-          if(x.seatnumber == deselected)
-            x.reserved = 0
-        })
-        this.reservedSeatsArray.push(seatnumber)
-        this.seatarray.map(x => {
-          if(x.seatnumber == seatnumber)
-            x.reserved = 1
-        })
+        // let deselected = this.reservedSeatsArray.shift()
+        // this.seatarray.map(x => {
+        //   if(x.seatnumber == deselected)
+        //     x.reserved = 0
+        // })
+        // this.reservedSeatsArray.push(seatnumber)
+        // this.seatarray.map(x => {
+        //   if(x.seatnumber == seatnumber)
+        //     x.reserved = 1
+        // })
       }
-
+      console.log(this.reservedSeatsArray);
   } 
 
   onSubmit()
@@ -144,15 +206,19 @@ export class SeatuiComponent implements OnInit {
     //   Swal.fire('oops', 'Check your contact details', 'error')    
 
     // }
-    
-    {
-      if(this.reservedSeatsArray.length == this.numberofseats)
+  
+      if(this.reservedSeatsArray.length == this.passengers.length)
         {
+          for(let i=0;i<this.passengers.length;i++){
+            this.passengers[i].name=this.passengers[i].firstname+" "+this.passengers[i].lastname
+            delete this.passengers[i]['firstname'];
+            delete this.passengers[i]['lastname'];
+            this.passengers[i].seat_id=this.reservedSeatsArray[i];
+          }
           this.TransactionService.seatArray = this.reservedSeatsArray
-          this.router.navigate([`${'flight/payment'}`]);
+          this.router.navigate([`${'flight/payment'}`,{passengers:JSON.stringify(this.passengers),booking_type:JSON.stringify(this.booking_type),class_type:JSON.stringify(this.class_type),flight:JSON.stringify(this.flightdetails)}]);
         }
         else 
         Swal.fire('oops', 'Select all seats', 'error')
-        }
   }
 }

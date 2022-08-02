@@ -22,7 +22,6 @@ import { HttpClientModule } from '@angular/common/http';
 
 import { AddflightComponent } from './components/addflight/addflight.component'
 import { DeleteflightComponent } from './components/deleteflight/deleteflight.component';
-import { UpdateflightComponent } from './components/updateflight/updateflight.component';
 import { ViewallflightsComponent } from './components/viewallflights/viewallflights.component';
 import { AdminloginComponent } from './components/adminlogin/adminlogin.component';
 
@@ -34,7 +33,6 @@ import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { DisplayflightComponent } from './components/displayflight/displayflight.component';
 import { PassengersComponent } from './components/passengers/passengers.component';
-import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { PaymentuiComponent } from './components/paymentui/paymentui.component';
 import { SeatuiComponent } from './components/seatui/seatui.component';
 import { ForgotpasswordComponent } from './components/forgotpassword/forgotpassword.component';
@@ -61,12 +59,9 @@ import { EticketComponent } from './components/eticket/eticket.component';
     DisplayflightComponent,
     AddflightComponent,
     DeleteflightComponent,
-    UpdateflightComponent,
     ViewallflightsComponent,
     PassengersComponent,
     AdminloginComponent,
-
-    PageNotFoundComponent,
   
     SeatuiComponent,
     PaymentuiComponent,
