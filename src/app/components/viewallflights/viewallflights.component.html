@@ -39,9 +39,9 @@
                         </div>
                         {{flight.flight_name}}
                     </td>
-                    <td class="td">{{flight.source_airport_id}}</td>
+                    <td class="td">{{flight.source_city}}</td>
                     <td class="td">{{flight.departure_time | date:'dd MMM yyyy hh:mm a'}}</td>
-                    <td class="td">{{flight.destination_airport_id}}</td>
+                    <td class="td">{{flight.destination_city}}</td>
                     <td class="td">{{flight.arrival_time| date:'dd MMM yyyy hh:mm a'}}</td>
                     <td class="td">
                         <!-- <button class="bt update" [routerLink]="['/updateflight/', flight.flight_name]">Update</button><br> -->

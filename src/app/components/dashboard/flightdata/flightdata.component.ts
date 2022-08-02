@@ -11,7 +11,7 @@ export class FlightdataComponent implements OnInit {
 
   constructor(private bookinghistoryservice : BookingHistoryService,private router:Router) { }
   public bookedtickets = []
-  async ngOnInit() {
+  ngOnInit() {
     if(!sessionStorage.getItem('user'))
     {
       Swal.fire({
@@ -22,10 +22,11 @@ export class FlightdataComponent implements OnInit {
       })
       this.router.navigate([`${'/login'}`]);
     }
-    await this.bookinghistoryservice.getbookeddata()
-    this.bookedtickets = this.bookinghistoryservice.bookedtickets
+    this.bookinghistoryservice.getbookeddata(sessionStorage.getItem('user')).subscribe((d:any)=>{
+      this.bookedtickets = d.filter(f=>f.booking_status=="confirmed");
+    })
   }
-  async oncancel(id)   {
+  oncancel(id)   {
     console.log(id)
     let current_date = `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`
     Swal.fire({
@@ -41,17 +42,20 @@ export class FlightdataComponent implements OnInit {
       console.log(result)
       if(result.value)
       {
-        let a = await this.bookinghistoryservice.cancelticket(id,current_date)
-        await this.bookinghistoryservice.getbookeddata()
-        this.bookedtickets = this.bookinghistoryservice.bookedtickets
-        if(a==false)
-        {
-          Swal.fire(
-            'Oops',
-            'Your Ticket was not deleted ! try again later :)',
-            'error'
-          )
-        }
+        this.bookinghistoryservice.cancelticket(id).subscribe(d=>{
+          if(d!="Cancellation Done Successfully"){
+            Swal.fire(
+              'Oops',
+              'Your Ticket was not deleted ! try again later :)',
+              'error'
+            )
+          }
+        })
+        this.bookinghistoryservice.getbookeddata(sessionStorage.getItem('user')).subscribe(d=>{
+          this.bookedtickets=d;
+        })
+
+        
       }
       
       else if(result.dismiss === Swal.DismissReason.cancel) 
@@ -64,23 +68,23 @@ export class FlightdataComponent implements OnInit {
         }
     })  
   }
-  checktime(departure_time,travel_date)
-  { 
-    if(new Date(travel_date).getTime() - new Date().getTime() < 0 )
-      return false;
+  // checktime(departure_time,travel_date)
+  // { 
+  //   if(new Date(travel_date).getTime() - new Date().getTime() < 0 )
+  //     return false;
 
-    if((new Date(travel_date).getDay() == new Date().getDay()))
-      {
-        if( parseInt(departure_time.substring(0,2)) - new Date().getHours() > 3)
-          return true;
-        else
-        return false;
-      }
+  //   if((new Date(travel_date).getDay() == new Date().getDay()))
+  //     {
+  //       if( parseInt(departure_time.substring(0,2)) - new Date().getHours() > 3)
+  //         return true;
+  //       else
+  //       return false;
+  //     }
     
 
-    if((new Date(travel_date).getTime() - new Date().getTime() > 0))
-      return true
+  //   if((new Date(travel_date).getTime() - new Date().getTime() > 0))
+  //     return true
 
       
-  }
+  // }
 } 

@@ -14,7 +14,7 @@ export class CancellationsComponent implements OnInit {
   public cancelledtickets = []
 
 
-  async ngOnInit() {
+  ngOnInit() {
     if(!sessionStorage.getItem('user'))
     {
       Swal.fire({
@@ -25,8 +25,8 @@ export class CancellationsComponent implements OnInit {
       })
       this.router.navigate([`${'/login'}`]);
     }
-    await this.bookinghistoryservice.getcancelleddata()
-    this.cancelledtickets = this.bookinghistoryservice.cancelledtickets
-    console.log(this.cancelledtickets)
+    this.bookinghistoryservice.getbookeddata(sessionStorage.getItem('user')).subscribe((d:any)=>{
+      this.cancelledtickets = d.filter(b=>b.booking_status=="cancelled");
+    })
   }
 }

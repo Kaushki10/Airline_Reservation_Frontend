@@ -53,13 +53,14 @@ export class PassengersComponent implements OnInit {
         this.booking_type=this.route.snapshot.paramMap.get('booking_type');
         this.class_type=this.route.snapshot.paramMap.get('class_type');
 
+        this.passenger.gender="Male";
         this.dataarray.push(this.passenger)
-        console.log(this.dataarray);
         
         this.count =1;
         // this.fetchprice()
         this.seatprice=this.class_type=="economic"?this.data.economic_fare:this.data.business_fare;
         this.totalprice=this.seatprice+708;
+        
     }
       
       onAdd()
@@ -68,10 +69,11 @@ export class PassengersComponent implements OnInit {
         if(this.count<=this.leftseats.length)
         {
           this.passenger = new Passenger()
+          this.passenger.gender='Male';
           this.dataarray.push(this.passenger)
           this.count++;
         }
-        
+        console.log(this.dataarray);
       }
  
     onSubmit()

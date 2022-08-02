@@ -216,7 +216,7 @@ export class SeatuiComponent implements OnInit {
             this.passengers[i].seat_id=this.reservedSeatsArray[i];
           }
           this.TransactionService.seatArray = this.reservedSeatsArray
-          this.router.navigate([`${'flight/payment'}`,{passengers:JSON.stringify(this.passengers),booking_type:JSON.stringify(this.booking_type),class_type:JSON.stringify(this.class_type),flight:JSON.stringify(this.flightdetails)}]);
+          this.router.navigate([`${'flight/payment'}`,{passengers:JSON.stringify(this.passengers),booking_type:this.booking_type,class_type:this.class_type,flight:JSON.stringify(this.flightdetails)}]);
         }
         else 
         Swal.fire('oops', 'Select all seats', 'error')

@@ -7,57 +7,41 @@ import { environment } from 'src/environments/environment';
   })
 
   export class BookingHistoryService {
-    private apiServer = environment.url+"BookHistory";
+    private apiServer = environment.url+"user/";
     private useremail
     public bookedtickets
     public cancelledtickets
     httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
-      })
+      }),
+      'responseType':'text' as 'json'
    
   }
    constructor(private httpClient: HttpClient) {
     this.useremail = sessionStorage.getItem('user')
 
     }
-    async getbookeddata(){
-        let params = new HttpParams();
-        params = params.append('mail', this.useremail);
-
-        let bookeddata =  await this.httpClient.get<[]>(this.apiServer,{ params: params }).toPromise()
-        this.bookedtickets = bookeddata
-        console.log(this.bookedtickets)
+    getbookeddata(email){
+        return this.httpClient.get<[]>(this.apiServer+"bookings/"+email)
       
     }
 
-    async cancelticket(id,current_date)
+    cancelticket(id)
     {
-        let params = new HttpParams();
-        params = params.append('transid', id);
-        params = params.append('cancel_date', current_date);
-        let apiServer = environment.url+"Cancellation";
-        try 
-        {
-            let a =   await this.httpClient.post(apiServer,this.httpOptions,{ params: params }).toPromise()
-            console.log(a)
-
-        }   
-        catch(error)
-        {
-            return false;
-        }
+       
+      return this.httpClient.delete(this.apiServer+"cancelbooking/"+id,this.httpOptions);
 
     }
-    async getcancelleddata(){
-      let params = new HttpParams();
-      let apiServer =  environment.url + 'CancelHistory'
-      params = params.append('mail', this.useremail);
+  //   async getcancelleddata(){
+  //     let params = new HttpParams();
+  //     let apiServer =  environment.url + 'CancelHistory'
+  //     params = params.append('mail', this.useremail);
 
-      let cancelleddata =  await this.httpClient.get<[]>(apiServer,{ params: params }).toPromise()
-      this.cancelledtickets = cancelleddata
-      console.log(this.cancelledtickets)
+  //     let cancelleddata =  await this.httpClient.get<[]>(apiServer,{ params: params }).toPromise()
+  //     this.cancelledtickets = cancelleddata
+  //     console.log(this.cancelledtickets)
     
-  }
+  // }
   
   }
